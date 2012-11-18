@@ -18,5 +18,8 @@ JavaScriptLessons
     4. B2_EC_ES3 《探索JavaScript执行环境 in ECMA-262 3rd》
     5. B3_RAP 《基于接口定义的自动化前端开发、测试平台》
 
+	技术博文目录
+	1. Blogs/1.EC_ES3 《探索执行环境 in ES3》 中英双语
+
 
 `未完待续...`

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml" xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" dir="ltr" id="html-main">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Bosn Lab: Demo1-Capturing & Bubbling</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="util.js"></script>
+    <!--
+     *************************************************
+     *  JavaScript DOM2 event model demonstration    *
+     *  written by @Bosn (http://weibo.com/bosn)     *
+     *  mail: bosnma@live.cn                         *
+     *************************************************
+     -->
+     <style type="text/css">
+        #demo {float:left;width:500px;margin:4px;color:#000000;font-size:14px;font-weight:bold;}
+        #outer {width:400px;height:400px;background:#DFDFDF;padding:8px;}
+        #middle {width:300px;height:300px;background:silver;padding:8px;margin-top:10px;}
+        #inner {width:200px;height:200px;background:#999999;padding:8px;margin-top:10px;}
+        #console {float:left;height:400px;overflow-y:auto;width:400px;border:1px dashed #E6E6E6;padding:4px;}
+        #control {margin:4px;}
+        #control input {border:1px dashed #DFDFDF; width:80px;font-size:14px;font-weight:bold;padding:4px;}
+        #control input:hover {background:Green;color:#FFF;}
+        .clear {clear:both;}
+     </style>
+</head>
+	<body>
+        <div id="control">
+            <input type="button" value="Split" id="btnSplit" />
+            <input type="button" value="Clear" id="btnClear" />
+        </div>
+        <div id="demo">
+            <div id="outer">
+                outer
+                <div id="middle">
+                    middle
+                    <div id="inner">
+                        inner
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="console">ready</div>
+        <div class="clear"></div>
+	</body>
+	<script>
+        util.init();
+
+        /**
+         * [CASE]: capturing & bubbling
+         */
+        var inner = document.getElementById('inner'),
+            outer = document.getElementById('outer'),
+            middle = document.getElementById('middle'),
+            highlight = util.highlight,
+            method = document.addEventListener ? 'addEventListener' : 'attachEvent',
+            eventName = document.addEventListener ? 'click' : 'onclick',
+            log = util.log;
+        
+        log('method: <span style="color:Red;">' + method + '</span>');
+        log('eventName: <span style="color:Red;">' + eventName + '</span>');
+
+        inner[method](eventName, function(e) {
+            highlight(inner);
+            log('inner clicked, true');
+            //log('[inner]e.eventPhase:' + e.eventPhase);
+            //log('bubbles:' + e.bubbles + ', cancelable:' + e.cancelable);
+        }, true);
+
+        inner[method](eventName, function(e) {
+            highlight(inner);
+            log('inner clicked');
+            //log('[inner]e.eventPhase:' + e.eventPhase);
+        }, false);
+
+        middle[method](eventName, function(e) {
+            highlight(middle);
+            log('middle clicked, true');
+            e.stopPropagation();
+        }, true);
+
+        middle[method](eventName, function(e) {
+            highlight(middle);
+            log('middle clicked');
+            //log('[middle]e.target.innerHTML:' + e.target.innerHTML);
+        }, false);
+
+        outer[method](eventName, function(e) {
+            highlight(outer);
+            log('outer clicked, true');
+        }, true);
+
+        outer[method](eventName, function(e) {
+            highlight(outer);
+            log('outer clicked');
+        }, false);
+	</script>
+</html>
+
+
